@@ -1,7 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Leaflet" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.LeafLet" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    </style>
+    <style name="ThemeOverlay.Material3" parent="Theme.Material3.DayNight">
+        <!-- Customize the overlay theme here -->
+        <!-- For example, you can customize colors, typography, etc. -->
     </style>
 </resources>
