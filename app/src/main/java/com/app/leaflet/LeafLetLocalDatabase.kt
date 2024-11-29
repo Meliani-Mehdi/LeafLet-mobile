@@ -27,4 +27,30 @@ abstract class LeafLetLocalDatabase : RoomDatabase() {
             }
         }
     }
+
+    //how to use database:
+    /*
+    val database = LeafLetLocalDatabase.getDatabase(this)
+
+    val univClassDao = database.univClassDao()
+    val groupDao = database.groupDao()
+     */
+
+    //after you declare these, you can then use them like this:
+    /*
+    val newUnivClass = UnivClass(
+        id = "123",
+        name = "Computer Science",
+        specialty = "AI",
+        year = 2024
+    )
+
+    lifecycleScope.launch(Dispatchers.IO) {
+        univClassDao.insertClass(newUnivClass)
+        val classes = univClassDao.getClassByYear(2024)
+    }
+
+
+    */
+
 }
