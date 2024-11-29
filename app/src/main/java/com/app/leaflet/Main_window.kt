@@ -30,7 +30,7 @@ class Main_window : AppCompatActivity() {
                 R.id.nav_class -> classViewerFragment()
                 R.id.nav_student -> StudentFragment()
                 R.id.nav_settings -> SettingsFragment()
-                else -> HomeFragment() // Default case
+                else -> HomeFragment()
             }
 
             supportFragmentManager.beginTransaction()
