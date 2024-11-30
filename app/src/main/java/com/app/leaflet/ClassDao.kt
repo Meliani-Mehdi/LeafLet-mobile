@@ -1,5 +1,4 @@
 package com.app.leaflet
-import UnivClass
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
