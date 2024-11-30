@@ -13,14 +13,17 @@
         android:theme="@style/Base.Theme.LeafLet"
         tools:targetApi="31">
         <activity
+            android:name=".groupActivity"
+            android:exported="false" />
+        <activity
             android:name=".Main_window"
-            android:screenOrientation="portrait"
             android:exported="false"
+            android:screenOrientation="portrait"
             tools:ignore="DiscouragedApi" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
             android:exported="true"
+            android:screenOrientation="portrait"
             tools:ignore="DiscouragedApi">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
