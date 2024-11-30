@@ -1,16 +1,10 @@
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.ForeignKey
-import java.time.Year
+package com.app.leaflet
 
-@Entity(tableName = "classes")
-data class UnivClass(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val name: String = "",
-    val specialty: String = "",
-    val level: String = "",
-    val year: Int = Year.now().value
-)
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
+import java.time.Year
 
 @Entity(
     tableName = "groups",
@@ -21,10 +15,10 @@ data class UnivClass(
         onDelete = ForeignKey.CASCADE
     )]
 )
-data class Group(
+data class UnivGroup(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val name: String = "",
     val type: String = "TD",
     val year: Int = Year.now().value,
-    val univClassId: Int?
+    @ColumnInfo(index = true) val univClassId: Int?
 )
