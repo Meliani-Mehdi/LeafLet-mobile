@@ -1,113 +1,74 @@
 package com.app.leaflet;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.TextView;
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.Context;
 import androidx.lifecycle.lifecycleScope;
 import kotlinx.coroutines.Dispatchers;
-import kotlinx.coroutines.launch;
+import kotlinx.coroutines.withContext;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Row;
-import java.io.InputStream;
+import java.io.File;
+import java.io.FileInputStream;
 
-class studentsfromExcel : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
-    private lateinit var btnSelectFile: Button
-    private lateinit var tvFileContent: TextView
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.studentfrom_excel)
-
-        btnSelectFile = findViewById(R.id.btnSelectFile)
-        tvFileContent = findViewById(R.id.tvFileContent)
-
-        btnSelectFile.setOnClickListener {
-            selectExcelFile()
-        }
-    }
-
-    private fun selectExcelFile() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        startActivityForResult(intent, 1)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null) {
+    suspend fun StudentsFromExcel(group_id: Int, file_path: String, context: Context): Boolean {
+        return withContext(Dispatchers.IO) {
             try {
-                val inputStream: InputStream? = contentResolver.openInputStream(data.data!!)
-                inputStream?.let {
-                    val workbook = WorkbookFactory.create(it)
-                    val sheet: Sheet = workbook.getSheetAt(0)
-
-                    // Validate the format of the Excel file
-                    val headerRow: Row? = sheet.getRow(0)
-                    if (headerRow == null || !isValidHeader(headerRow)) {
-                        tvFileContent.text = "Invalid file format. The file must have columns: First Name, Last Name, Group ID."
-                        inputStream.close()
-                        return
-                    }
-   // -----------------------------------------here-----------------------------------------------
-                    val database = LeafLetLocalDatabase.getDatabase(this)
-                    val studentDao = database.studentDao()
-
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        // Iterate through rows and insert students into the database
-                        for (i in 1..sheet.lastRowNum) { // Skip the header row
-                            val row: Row? = sheet.getRow(i)
-                            row?.let {
-                                val firstName = row.getCell(0)?.toString()?.trim() ?: ""
-                                val lastName = row.getCell(1)?.toString()?.trim() ?: ""
-                                val groupId = row.getCell(2)?.toString()?.trim() ?: ""
-
-                                if (firstName.isNotEmpty() && lastName.isNotEmpty() && groupId.isNotEmpty()) {
-//                                    val newStudent = UnivStudent(
-//                                        id = 0, // Assuming ID is auto-generated
-//                                        firstName = firstName,
-//                                        lastName = lastName,
-//                                        groupId = groupId
-//                                    )
-//                                    studentDao.insertStudent(newStudent)
-                                }
-                            }
-                        }
-                    }
-
-                    val rows = StringBuilder()
-                    for (i in 1..sheet.lastRowNum) { // Skip the header row
-                        val row: Row? = sheet.getRow(i)
-                        row?.let {
-                            for (j in 0 until row.lastCellNum) {
-                                rows.append(row.getCell(j)).append("\t")
-                            }
-                            rows.append("\n")
-                        }
-                    }
-
-                    tvFileContent.text = rows.toString()
-                    inputStream.close()
+                // Verify if the file is an Excel file
+                val file = File(file_path)
+                if (!file.exists() || !file.extension.equals("xlsx", ignoreCase = true)) {
+                    return@withContext false
                 }
+
+                val inputStream = FileInputStream(file)
+                val workbook = WorkbookFactory.create(inputStream)
+                val sheet = workbook.getSheetAt(0)
+
+                // Validate the format of the Excel file
+                val headerRow: Row? = sheet.getRow(0)
+                if (headerRow == null || !isValidHeader(headerRow)) {
+                    inputStream.close()
+                    return@withContext false
+                }
+
+                val database = LeafLetLocalDatabase.getDatabase(context)
+                val studentDao = database.studentDao()
+
+                // Iterate through rows and insert students into the database
+                for (i in 1..sheet.lastRowNum) { // Skip the header row
+                    val row: Row? = sheet.getRow(i)
+                    row?.let {
+                        val firstName = row.getCell(0)?.toString()?.trim() ?: ""
+                        val lastName = row.getCell(1)?.toString()?.trim() ?: ""
+
+                        if (firstName.isNotEmpty() && lastName.isNotEmpty()) {
+                            val newStudent = UnivStudent(
+                                id = 0, // Assuming ID is auto-generated
+                                firstName = firstName,
+                                lastName = lastName,
+                                groupId = group_id.toString()
+                            )
+                            studentDao.insertStudent(newStudent)
+                        }
+                    }
+                }
+
+                inputStream.close()
+                true
             } catch (e: Exception) {
-                tvFileContent.text = "Error reading file: ${e.message}"
+                e.printStackTrace()
+                false
             }
         }
     }
 
     private fun isValidHeader(headerRow: Row): Boolean {
-        if (headerRow.lastCellNum < 3) return false // Ensure at least 3 columns
+        if (headerRow.lastCellNum < 2) return false // Ensure at least 2 columns
 
         val firstNameHeader = headerRow.getCell(0)?.toString()?.trim()?.lowercase() ?: ""
         val lastNameHeader = headerRow.getCell(1)?.toString()?.trim()?.lowercase() ?: ""
-        val groupIdHeader = headerRow.getCell(2)?.toString()?.trim()?.lowercase() ?: ""
 
         return firstNameHeader == "first name" &&
-                lastNameHeader == "last name" &&
-                groupIdHeader == "group id"
+                lastNameHeader == "last name"
     }
 }
