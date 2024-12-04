@@ -9,7 +9,7 @@ import org.apache.poi.ss.usermodel.Row;
 import java.io.File;
 import java.io.FileInputStream;
 
-class MainActivity : AppCompatActivity() {
+class studentsfromExcel  {
 
     suspend fun StudentsFromExcel(group_id: Int, file_path: String, context: Context): Boolean {
         return withContext(Dispatchers.IO) {
@@ -41,15 +41,15 @@ class MainActivity : AppCompatActivity() {
                         val firstName = row.getCell(0)?.toString()?.trim() ?: ""
                         val lastName = row.getCell(1)?.toString()?.trim() ?: ""
 
-                        if (firstName.isNotEmpty() && lastName.isNotEmpty()) {
-                            val newStudent = UnivStudent(
-                                id = 0, // Assuming ID is auto-generated
-                                firstName = firstName,
-                                lastName = lastName,
-                                groupId = group_id.toString()
-                            )
-                            studentDao.insertStudent(newStudent)
-                        }
+//                        if (firstName.isNotEmpty() && lastName.isNotEmpty()) {
+//                            val newStudent = UnivStudent(
+//                                id = 0, // Assuming ID is auto-generated
+//                                firstName = firstName,
+//                                lastName = lastName,
+//                                groupId = group_id.toString()
+//                            )
+//                            studentDao.insertStudent(newStudent)
+//                        }
                     }
                 }
 
