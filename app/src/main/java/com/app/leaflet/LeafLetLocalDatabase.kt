@@ -5,10 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [UnivClass::class, UnivGroup::class], version = 1, exportSchema = false)
+@Database(entities = [UnivClass::class, UnivGroup::class, UnivStudent::class], version = 1, exportSchema = false)
 abstract class LeafLetLocalDatabase : RoomDatabase() {
     abstract fun univClassDao(): ClassDao
     abstract fun groupDao(): GroupDao
+    abstract fun studentDao(): StudentDao
 
     companion object {
         @Volatile
@@ -33,6 +34,7 @@ abstract class LeafLetLocalDatabase : RoomDatabase() {
 
     val univClassDao = database.univClassDao()
     val groupDao = database.groupDao()
+    val studentDao = database.studentDao()
      */
 
     //after you declare these, you can then use them like this:
