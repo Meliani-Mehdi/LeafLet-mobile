@@ -14,9 +14,6 @@ interface GroupDao {
     @Update
     suspend fun updateGroup(group: UnivGroup)
 
-    @Query("Select * from groups where year = :year")
-    suspend fun getGroupByYear(year: Int): List<UnivGroup>
-
     @Query("Select * from groups where id = :id")
     suspend fun getGroupById(id: Int): UnivGroup?
 

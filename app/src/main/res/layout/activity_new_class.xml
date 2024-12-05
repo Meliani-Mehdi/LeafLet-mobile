@@ -17,6 +17,7 @@
         android:background="@drawable/back"
         android:backgroundTint="@color/green"
         android:clickable="true"
+        android:onClick="go_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,24 +33,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Name:"
-            android:textSize="20sp" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/null_style"
-            android:hint="Name"
-            android:paddingHorizontal="8dp"
-            android:paddingBottom="10dp">
+            android:layout_height="48dp"
+            android:background="@drawable/seach_bar_backgound">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/class_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/null_style"
@@ -88,19 +79,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Speciality:"
-            android:textSize="20sp" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/seach_bar_backgound">
 
-        <Spinner
-            android:id="@+id/spinner3"
-            android:layout_width="124dp"
-            android:layout_height="48dp"
-            android:background="@drawable/seach_bar_backgound" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/class_speciality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/null_style"
+                android:hint="Speciality"
+                android:paddingHorizontal="8dp"
+                android:paddingBottom="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
     </LinearLayout>
 
     <LinearLayout
@@ -115,19 +108,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Level:"
-            android:textSize="20sp" />
-
-        <Spinner
-            android:id="@+id/spinner4"
-            android:layout_width="124dp"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="@drawable/seach_bar_backgound" />
+            android:background="@drawable/seach_bar_backgound">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/class_level"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/null_style"
+                android:hint="Level"
+                android:paddingHorizontal="8dp"
+                android:paddingBottom="10dp" />
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -151,8 +145,8 @@
             android:textSize="20sp" />
 
         <Spinner
-            android:id="@+id/spinner5"
-            android:layout_width="124dp"
+            android:id="@+id/class_year"
+            android:layout_width="180dp"
             android:layout_height="48dp"
             android:background="@drawable/seach_bar_backgound" />
     </LinearLayout>
