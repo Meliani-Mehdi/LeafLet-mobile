@@ -1,0 +1,18 @@
+<resources>
+    <style name="TextAppearance.LeafLet" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <!-- Hint text color -->
+        <item name="hintTextColor">@color/black</item>
+        <!-- Box stroke color (when active) -->
+        <item name="boxStrokeColor">@color/black</item>
+        <!-- Default text color -->
+        <item name="android:textColor">@color/black</item>
+        <!-- Error text color -->
+        <item name="errorTextColor">@color/warning</item>
+    </style>
+</resources>

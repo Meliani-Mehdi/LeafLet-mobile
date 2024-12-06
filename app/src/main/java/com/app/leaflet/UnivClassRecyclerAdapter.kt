@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class UnivClassRecyclerAdapter : RecyclerView.Adapter<UnivClassRecyclerAdapter.UnivClassViewHolder>() {
@@ -35,13 +36,31 @@ class UnivClassRecyclerAdapter : RecyclerView.Adapter<UnivClassRecyclerAdapter.U
 
 
         fun bind(univClass: UnivClass) {
+
             tvNameClass.text = univClass.name
             tvEdit.text = "Edit"
             tvDelete.text = "Delete"
 
-            tvNameClass.setOnClickListener {
-                recyclerViewGroup.visibility = View.VISIBLE
+            val groupAdapter = UnivGroupRecyclerAdapter()
 
+            // Ajouter des données fictives au RecyclerView
+            val groupes = mutableListOf(
+                UnivGroup(13455432, "group 1", "TD", 1345543),
+                UnivGroup(13455442, "group 2", "TD",  1345544),
+                UnivGroup(13455452, "group 3", "TP", 1345545)
+            )
+
+            groupAdapter.updateList(groupes)
+
+            recyclerViewGroup.apply {
+                layoutManager = LinearLayoutManager(itemView.context)
+                adapter = groupAdapter
+            }
+
+            recyclerViewGroup.visibility = View.GONE
+            tvNameClass.setOnClickListener {
+                recyclerViewGroup.visibility =
+                    if (recyclerViewGroup.visibility == View.VISIBLE) View.GONE else View.VISIBLE
             }
         }
 

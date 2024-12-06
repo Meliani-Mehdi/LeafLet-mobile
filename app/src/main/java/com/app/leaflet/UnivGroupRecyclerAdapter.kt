@@ -33,16 +33,12 @@ class UnivGroupRecyclerAdapter : RecyclerView.Adapter<UnivGroupRecyclerAdapter.U
         private val tvEditGroup: TextView = itemView.findViewById(R.id.tvEditGroup)
         private val tvDeleteGroup: TextView = itemView.findViewById(R.id.tvDeleteGroup)
 
-        private val recyclerViewSubGroup: RecyclerView = itemView.findViewById(R.id.recyclerViewGroup)
-
         fun bind(univGroup: UnivGroup) {
             tvGroupName.text = univGroup.name
             tvTypeGroup.text = univGroup.type
 
             tvEditGroup.text = "Edit Group"
             tvDeleteGroup.text = "Delete Group"
-
-
         }
     }
 }
