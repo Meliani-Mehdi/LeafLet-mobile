@@ -30,7 +30,7 @@
             android:textSize="20sp" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/groupType"
             android:layout_width="124dp"
             android:layout_height="48dp"
             android:background="@drawable/seach_bar_backgound" />
@@ -78,14 +78,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Groupe Name:"
-            android:textSize="20sp" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
             android:layout_width="match_parent"
@@ -93,40 +85,14 @@
             android:background="@drawable/seach_bar_backgound">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/groupName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/null_style"
-                android:hint="Name"
+                android:hint="Group Name"
                 android:paddingHorizontal="8dp"
                 android:paddingBottom="10dp" />
         </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.26"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Year:"
-            android:textSize="20sp" />
-
-        <Spinner
-            android:id="@+id/spinner2"
-            android:layout_width="128dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/seach_bar_backgound" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
