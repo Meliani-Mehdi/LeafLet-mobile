@@ -6,17 +6,17 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "groups",
+    tableName = "students",
     foreignKeys = [ForeignKey(
-        entity = UnivClass::class,
+        entity = UnivGroup::class,
         parentColumns = ["id"],
-        childColumns = ["univClassId"],
+        childColumns = ["univGroupId"],
         onDelete = ForeignKey.CASCADE
     )]
 )
-data class UnivGroup(
+data class UnivStudent(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val name: String = "",
-    val type: String = "TD",
-    @ColumnInfo(index = true) val univClassId: Int?
+    val firstName: String = "",
+    val lastName: String = "",
+    @ColumnInfo(index = true) val univGroupId: Int?
 )
