@@ -12,8 +12,12 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,16 +62,7 @@ class classViewerFragment : Fragment() {
             adapter = univClassRecyclerAdapter
         }
 
-
-
-        // Ajouter des données fictives au RecyclerView
-        val classes = mutableListOf(
-            UnivClass(1345543, "Mathématiques", "Salle A1", "Prof. Dupont", "2024"),
-            UnivClass(1345544, "Physique", "Salle B2", "Prof. Martin", "2023"),
-            UnivClass(1345545, "Chimie", "Salle C3", "Prof. Durand", "2022")
-        )
-
-        univClassRecyclerAdapter.updateList(classes)
+        univClassRecyclerAdapter.updateList(emptyList())
 
         return view
     }
@@ -84,11 +79,15 @@ class classViewerFragment : Fragment() {
     private fun setupSpinner(view: View) {
         val spinner: Spinner = view.findViewById(R.id.spinner)
 
+        val database = LeafLetLocalDatabase.getDatabase(requireContext())
+        val univClassDao = database.univClassDao()
+
+
         // Préparer les données pour le Spinner
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         val startYear = 2015
 
-        val items = (startYear..currentYear).map { year ->
+        val items = (startYear..currentYear + 3).map { year ->
             "$year-${year + 1}"
         }
 
@@ -96,25 +95,32 @@ class classViewerFragment : Fragment() {
         // Créer et configurer l'adapter
         val adapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_item,
+            R.layout.spinner_item,
             items
         )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
 
         // Associer l'adapter au Spinner
         spinner.adapter = adapter
 
-        // Gérer les sélections de l'utilisateur
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedItem = items[position]
-                Toast.makeText(requireContext(), "Selected: $selectedItem", Toast.LENGTH_SHORT).show()
+
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val fetchedClasses = univClassDao.getClassByYear(selectedItem)
+
+                    withContext(Dispatchers.Main) {
+                        univClassRecyclerAdapter.updateList(fetchedClasses)
+                    }
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // Aucune action si aucun élément n'est sélectionné
             }
         }
+
     }
 
     companion object {

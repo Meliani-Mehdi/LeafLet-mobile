@@ -1,5 +1,6 @@
 package com.app.leaflet
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ class UnivGroupRecyclerAdapter : RecyclerView.Adapter<UnivGroupRecyclerAdapter.U
 
     override fun getItemCount() = groups.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(newGroups: List<UnivGroup>) {
         groups.clear()
         groups.addAll(newGroups)

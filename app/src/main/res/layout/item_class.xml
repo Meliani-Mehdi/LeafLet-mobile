@@ -1,71 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:cardBackgroundColor="#D0FFFFFF"
-    android:layout_marginVertical="1dp"
-    app:cardElevation="2dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="@color/beige"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:padding="16dp">
 
+        <!-- Class Name -->
         <TextView
             android:id="@+id/tvNameClass"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:gravity="center"
-            android:lines="1"
-            android:textColor="@color/black"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:text="Master Info"
-            />
-
-        <TextView
-            android:id="@+id/tvEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="230dp"
-            android:gravity="center"
-            android:lines="1"
+            android:text="Class Name"
             android:textColor="@color/forest"
-
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:text="Edit"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvDelete"
+        <!-- Buttons Section -->
+        <LinearLayout
+            android:id="@+id/lay_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="290dp"
-            android:gravity="center"
-            android:lines="1"
-            android:textColor="@color/warning"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:text="Delete"
-            />
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <TextView
+                android:id="@+id/buttonAdd"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/plus_4_128"
+                android:backgroundTint="@color/forest"
+                android:clickable="true"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/buttonEdit"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginVertical="12dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/edit_128"
+                android:backgroundTint="@color/forest"
+                android:clickable="true"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewGroup"
-        android:visibility="invisible"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        tools:itemCount="5"
-        tools:listitem="@layout/item_group"
-        />
+            <TextView
+                android:id="@+id/buttonDelete"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/trash_2_128"
+                android:backgroundTint="@color/warning"
+                android:clickable="true"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Class SP -->
+        <TextView
+            android:id="@+id/tvClassSP"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Specialization: Software Engineering"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/lay_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNameClass" />
+
+        <!-- Class Level -->
+        <TextView
+            android:id="@+id/tvClassLevel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Level: Postgraduate"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/lay_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvClassSP" />
+
+        <!-- Class Year -->
+        <TextView
+            android:id="@+id/tvClassYear"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Year: 2023-2024"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/lay_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvClassLevel" />
+
+        <!-- RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvClassYear"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_group" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

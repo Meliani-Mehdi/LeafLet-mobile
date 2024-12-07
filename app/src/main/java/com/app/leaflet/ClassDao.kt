@@ -14,7 +14,7 @@ interface ClassDao {
     suspend fun updateClass(univClass: UnivClass)
 
     @Query("Select * from classes where year = :year")
-    suspend fun getClassByYear(year: Int): List<UnivClass>
+    suspend fun getClassByYear(year: String): List<UnivClass>
 
     @Query("Select * from classes where id = :id")
     suspend fun getClassById(id: Int): UnivClass?

@@ -1,72 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:cardBackgroundColor="#D0FFFFFF"
-    android:layout_marginVertical="1dp"
-    app:cardElevation="2dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="8dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="45dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
 
+        <!-- Group Name -->
         <TextView
             android:id="@+id/tvNameGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="40dp"
-            android:gravity="center"
-            android:lines="1"
+            android:text="Group 01"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:text="Group 01"
-            />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvTypeGroup"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Group Type -->
         <TextView
             android:id="@+id/tvTypeGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="170dp"
-            android:gravity="center"
-            android:lines="1"
+            android:text="TD"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:text="TD"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvEditGroup"
+            app:layout_constraintStart_toEndOf="@id/tvNameGroup"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Edit Button -->
         <TextView
             android:id="@+id/tvEditGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="260dp"
-            android:gravity="center"
-            android:lines="1"
-            android:textColor="@color/forest"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/edit_128"
+            android:backgroundTint="@color/forest"
+            android:clickable="true"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:text="Edit"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvDeleteGroup"
+            app:layout_constraintStart_toEndOf="@id/tvTypeGroup"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Delete Button -->
         <TextView
             android:id="@+id/tvDeleteGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="330dp"
-            android:gravity="center"
-            android:lines="1"
-            android:textColor="@color/warning"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/trash_2_128"
+            android:backgroundTint="@color/warning"
+            android:clickable="true"
             android:textSize="15sp"
             android:textStyle="bold"
-            android:text="Delete"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tvEditGroup"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </RelativeLayout>
-
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

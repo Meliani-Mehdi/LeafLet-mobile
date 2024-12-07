@@ -1,5 +1,6 @@
 package com.app.leaflet
 
+import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -10,6 +11,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class groupActivity : AppCompatActivity() {
 
@@ -31,8 +36,8 @@ class groupActivity : AppCompatActivity() {
 
         val group_types = listOf("TD", "TP")
 
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, group_types)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapter = ArrayAdapter(this, R.layout.spinner_item, group_types)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
 
         groupType.adapter = adapter
 
@@ -58,7 +63,34 @@ class groupActivity : AppCompatActivity() {
     }
 
     fun confirm(v:View){
+        if (checkFields()) {
+            val database = LeafLetLocalDatabase.getDatabase(this)
+            val univGroupDao = database.groupDao()
 
+            val name = groupName.text.trim().toString()
+            val type = groupType.selectedItem.toString()
+            val classId = intent.getIntExtra("ClassID", 0)
+
+            val newGroup = UnivGroup(0, name, type, classId)
+
+            lifecycleScope.launch(Dispatchers.IO) {
+                try {
+                    univGroupDao.insertGroup(newGroup)
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@groupActivity, "Group added successfully!", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                } catch (e: SQLiteConstraintException) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@groupActivity, "This Group already exists. Please enter unique details.", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@groupActivity, "An error occurred: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
 
 }

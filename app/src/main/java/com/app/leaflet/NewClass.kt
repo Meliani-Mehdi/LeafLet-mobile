@@ -33,23 +33,22 @@ class NewClass : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        className = findViewById<EditText>(R.id.class_name)
-        classSpecialty = findViewById<EditText>(R.id.class_speciality)
-        classLevel = findViewById<EditText>(R.id.class_level)
-        classYearSpinner = findViewById<Spinner>(R.id.class_year)
+        className = findViewById(R.id.class_name)
+        classSpecialty = findViewById(R.id.class_speciality)
+        classLevel = findViewById(R.id.class_level)
+        classYearSpinner = findViewById(R.id.class_year)
 
-
-        //this will fii the spinner with the wanted years
+        //this will fill the spinner with the wanted years
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
 
-        val years = mutableListOf("Select Year")
-        for (year in (currentYear - 2)..(currentYear + 5)) {
+        val years = mutableListOf<String>()
+        for (year in ( 2015 )..(currentYear + 3)) {
             val yearRange = "$year-${year + 1}"
             years.add(yearRange)
         }
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, years)
+        val adapter = ArrayAdapter(this, R.layout.spinner_item, years)
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
 
         classYearSpinner.adapter = adapter
 
