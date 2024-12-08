@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="Group Type:"
+            android:textColor="@color/forest"
             android:textSize="20sp" />
 
         <Spinner
@@ -82,7 +83,14 @@
             android:id="@+id/textInputLayout"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="@drawable/seach_bar_backgound">
+            android:background="@drawable/seach_bar_backgound"
+            android:textColorHint="@color/forest"
+            app:boxBackgroundColor="@color/white"
+            app:boxStrokeColor="@color/forest"
+            app:boxStrokeErrorColor="@color/warning"
+            app:boxStrokeWidth="1dp"
+            app:hintTextColor="@color/forest"
+            app:placeholderTextColor="@color/forest">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/groupName"
@@ -91,7 +99,9 @@
                 android:background="@drawable/null_style"
                 android:hint="Group Name"
                 android:paddingHorizontal="8dp"
-                android:paddingBottom="10dp" />
+                android:paddingBottom="10dp"
+                android:textColor="@color/black"
+                android:textColorLink="@color/forest" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 

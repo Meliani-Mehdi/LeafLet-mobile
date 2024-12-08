@@ -4,10 +4,11 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import androidx.room.Upsert
 
 @Dao
 interface ClassDao {
-    @Insert
+    @Upsert
     suspend fun insertClass(univClass: UnivClass)
 
     @Update

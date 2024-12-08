@@ -52,13 +52,32 @@ class NewClass : AppCompatActivity() {
 
         classYearSpinner.adapter = adapter
 
+        val targetPosition = years.indexOf("$currentYear-${currentYear + 1}")
+        if (targetPosition >= 0) {
+            classYearSpinner.setSelection(targetPosition)
+        }
+
+        val cName = intent.getStringExtra("ClassName")
+        val cSp = intent.getStringExtra("ClassSp")
+        val cLevel = intent.getStringExtra("ClassLevel")
+        val cYear = intent.getStringExtra("ClassYear")
+
+        className.setText(cName)
+        classSpecialty.setText(cSp)
+        classLevel.setText(cLevel)
+
+        val position = years.indexOf(cYear)
+        if (position >= 0) {
+            classYearSpinner.setSelection(position)
+        }
+
     }
 
     fun go_back(v: View) {
         finish()
     }
 
-    fun checkFields(): Boolean {
+    private fun checkFields(): Boolean {
         if(className.text.trim().isEmpty()){
             className.error = "This field is required"
             return false
@@ -86,18 +105,25 @@ class NewClass : AppCompatActivity() {
             val database = LeafLetLocalDatabase.getDatabase(this)
             val univClassDao = database.univClassDao()
 
+
+            val cId = intent.getIntExtra("ClassID", 0)
             val name = className.text.trim().toString()
             val specialty = classSpecialty.text.trim().toString()
             val level = classLevel.text.trim().toString()
             val year = classYearSpinner.selectedItem.toString()
 
-            val univClass = UnivClass(id = 0, name, specialty, level, year)
+            val univClass = UnivClass(cId, name, specialty, level, year)
 
             lifecycleScope.launch(Dispatchers.IO) {
                 try {
                     univClassDao.insertClass(univClass)
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(this@NewClass, "Class added successfully!", Toast.LENGTH_SHORT).show()
+                        if(cId == 0){
+                            Toast.makeText(this@NewClass, "Class added successfully!", Toast.LENGTH_SHORT).show()
+                        }
+                        else{
+                            Toast.makeText(this@NewClass, "Class updated successfully!", Toast.LENGTH_SHORT).show()
+                        }
                         finish()
                     }
                 } catch (e: SQLiteConstraintException) {

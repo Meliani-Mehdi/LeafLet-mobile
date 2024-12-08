@@ -67,7 +67,25 @@ class classViewerFragment : Fragment() {
         return view
     }
 
-     private fun setupAddClassBtn(view: View){
+    override fun onResume() {
+        super.onResume()
+
+        val spinner: Spinner? = view?.findViewById(R.id.spinner)
+        spinner?.let {
+            val selectedPosition = it.selectedItemPosition
+            if (selectedPosition != AdapterView.INVALID_POSITION) {
+                it.onItemSelectedListener?.onItemSelected(
+                    it,
+                    it.selectedView,
+                    selectedPosition,
+                    it.selectedItemId
+                )
+            }
+        }
+    }
+
+
+    private fun setupAddClassBtn(view: View){
          val btn:Button = view.findViewById(R.id.addClassBtn)
 
          btn.setOnClickListener{
@@ -102,6 +120,12 @@ class classViewerFragment : Fragment() {
 
         // Associer l'adapter au Spinner
         spinner.adapter = adapter
+
+        val targetPosition = items.indexOf("$currentYear-${currentYear + 1}")
+        if (targetPosition >= 0) {
+            spinner.setSelection(targetPosition)
+        }
+
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

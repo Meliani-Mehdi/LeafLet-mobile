@@ -5,116 +5,123 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardBackgroundColor="@color/beige"
+    app:cardBackgroundColor="@color/green"
     app:cardCornerRadius="12dp"
     app:cardElevation="4dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/class_info_holder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <!-- Class Name -->
-        <TextView
-            android:id="@+id/tvNameClass"
-            android:layout_width="0dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Class Name"
-            android:textColor="@color/forest"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:padding="16dp">
 
-        <!-- Buttons Section -->
-        <LinearLayout
-            android:id="@+id/lay_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
+            <!-- Class Name -->
             <TextView
-                android:id="@+id/buttonAdd"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/plus_4_128"
-                android:backgroundTint="@color/forest"
-                android:clickable="true"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:id="@+id/tvNameClass"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Class Name"
+                android:textColor="@color/beige"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
+            <!-- Buttons Section -->
+            <LinearLayout
+                android:id="@+id/lay_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/buttonAdd"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/plus_4_128"
+                    android:backgroundTint="@color/light_green"
+                    android:clickable="true"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/buttonEdit"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginVertical="12dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/edit_128"
+                    android:backgroundTint="@color/white"
+                    android:clickable="true"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/buttonDelete"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/trash_2_128"
+                    android:backgroundTint="@color/warning"
+                    android:clickable="true"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <!-- Class SP -->
             <TextView
-                android:id="@+id/buttonEdit"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginVertical="12dp"
-                android:layout_marginEnd="8dp"
-                android:background="@drawable/edit_128"
-                android:backgroundTint="@color/forest"
-                android:clickable="true"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:id="@+id/tvClassSP"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Specialization: Software Engineering"
+                android:textColor="@color/beige"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/lay_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNameClass" />
 
+            <!-- Class Level -->
             <TextView
-                android:id="@+id/buttonDelete"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/trash_2_128"
-                android:backgroundTint="@color/warning"
-                android:clickable="true"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:id="@+id/tvClassLevel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Level: Postgraduate"
+                android:textColor="@color/beige"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/lay_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvClassSP" />
 
-        <!-- Class SP -->
-        <TextView
-            android:id="@+id/tvClassSP"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Specialization: Software Engineering"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/lay_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvNameClass" />
+            <!-- Class Year -->
+            <TextView
+                android:id="@+id/tvClassYear"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Year: 2023-2024"
+                android:textColor="@color/beige"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/lay_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvClassLevel" />
 
-        <!-- Class Level -->
-        <TextView
-            android:id="@+id/tvClassLevel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Level: Postgraduate"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/lay_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvClassSP" />
+            <!-- RecyclerView -->
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Class Year -->
-        <TextView
-            android:id="@+id/tvClassYear"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Year: 2023-2024"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@+id/lay_btn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvClassLevel" />
-
-        <!-- RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvClassYear"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="4dp"
             tools:itemCount="5"
             tools:listitem="@layout/item_group" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
 </androidx.cardview.widget.CardView>

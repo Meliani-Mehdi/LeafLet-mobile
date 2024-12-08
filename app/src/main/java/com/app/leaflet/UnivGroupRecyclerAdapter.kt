@@ -39,8 +39,6 @@ class UnivGroupRecyclerAdapter : RecyclerView.Adapter<UnivGroupRecyclerAdapter.U
             tvGroupName.text = univGroup.name
             tvTypeGroup.text = univGroup.type
 
-            tvEditGroup.text = "Edit Group"
-            tvDeleteGroup.text = "Delete Group"
         }
     }
 }
