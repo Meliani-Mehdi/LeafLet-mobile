@@ -31,8 +31,8 @@ class groupActivity : AppCompatActivity() {
             insets
         }
 
-        groupName = findViewById<EditText>(R.id.groupName)
-        groupType = findViewById<Spinner>(R.id.groupType)
+        groupName = findViewById(R.id.groupName)
+        groupType = findViewById(R.id.groupType)
 
         val group_types = listOf("TD", "TP")
 
@@ -41,6 +41,14 @@ class groupActivity : AppCompatActivity() {
 
         groupType.adapter = adapter
 
+        val gName = intent.getStringExtra("GroupName")
+        val gType = intent.getStringExtra("GroupType")
+
+        groupName.setText(gName)
+        val position = group_types.indexOf(gType)
+        if (position >= 0) {
+            groupType.setSelection(position)
+        }
 
     }
 
@@ -67,17 +75,31 @@ class groupActivity : AppCompatActivity() {
             val database = LeafLetLocalDatabase.getDatabase(this)
             val univGroupDao = database.groupDao()
 
+            val gId = intent.getIntExtra("GroupID", 0)
             val name = groupName.text.trim().toString()
             val type = groupType.selectedItem.toString()
             val classId = intent.getIntExtra("ClassID", 0)
 
-            val newGroup = UnivGroup(0, name, type, classId)
+            val newGroup = UnivGroup(gId, name, type, classId)
 
             lifecycleScope.launch(Dispatchers.IO) {
+                withContext(Dispatchers.Main) {
+                    if(classId == 0){
+                        Toast.makeText(this@groupActivity, "An error occurred: Can't find parent class", Toast.LENGTH_SHORT).show()
+                    }
+                }
                 try {
-                    univGroupDao.insertGroup(newGroup)
+                    val message: String
+                    if(gId == 0){
+                        univGroupDao.insertGroup(newGroup)
+                        message = "Group added successfully!"
+                    }
+                    else{
+                        univGroupDao.updateGroup(newGroup)
+                        message = "Group updated successfully!"
+                    }
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(this@groupActivity, "Group added successfully!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@groupActivity, message, Toast.LENGTH_SHORT).show()
                         finish()
                     }
                 } catch (e: SQLiteConstraintException) {

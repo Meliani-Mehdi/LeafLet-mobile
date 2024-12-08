@@ -128,7 +128,7 @@ class UnivClassRecyclerAdapter : RecyclerView.Adapter<UnivClassRecyclerAdapter.U
         fun showDeleteConfirmationDialog(className: String, onConfirm: () -> Unit) {
             val builder = AlertDialog.Builder(itemView.context)
             builder.setTitle("Delete Class")
-            builder.setMessage("Are you sure you want to delete the class \"$className\"?")
+            builder.setMessage("Are you sure you want to delete the class: \"$className\"?")
 
             builder.setPositiveButton("Yes") { dialog, _ ->
                 dialog.dismiss()

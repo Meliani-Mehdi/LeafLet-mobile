@@ -105,7 +105,6 @@ class NewClass : AppCompatActivity() {
             val database = LeafLetLocalDatabase.getDatabase(this)
             val univClassDao = database.univClassDao()
 
-
             val cId = intent.getIntExtra("ClassID", 0)
             val name = className.text.trim().toString()
             val specialty = classSpecialty.text.trim().toString()

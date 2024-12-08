@@ -102,7 +102,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/class_speciality"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@drawable/null_style"
                 android:hint="Speciality"
                 android:paddingHorizontal="8dp"
@@ -139,7 +139,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/class_level"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@drawable/null_style"
                 android:hint="Level"
                 android:paddingHorizontal="8dp"

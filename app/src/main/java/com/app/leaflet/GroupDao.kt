@@ -4,12 +4,11 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import androidx.room.Upsert
 
 @Dao
 interface GroupDao {
 
-    @Upsert
+    @Insert
     suspend fun insertGroup(group: UnivGroup)
 
     @Update
