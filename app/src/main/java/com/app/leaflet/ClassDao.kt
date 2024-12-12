@@ -8,6 +8,7 @@ import androidx.room.Upsert
 
 @Dao
 interface ClassDao {
+
     @Upsert
     suspend fun insertClass(univClass: UnivClass)
 

@@ -5,11 +5,16 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [UnivClass::class, UnivGroup::class, UnivStudent::class], version = 1, exportSchema = false)
+@Database(
+    entities = [UnivClass::class, UnivGroup::class, UnivStudent::class, UnivPlaner::class, UnivSession::class, UnivPresence::class],
+    version = 1, exportSchema = false)
 abstract class LeafLetLocalDatabase : RoomDatabase() {
     abstract fun univClassDao(): ClassDao
     abstract fun groupDao(): GroupDao
     abstract fun studentDao(): StudentDao
+    abstract fun planerDao(): PlanerDao
+    abstract fun sessionDao(): SessionDao
+    abstract fun presenceDao(): PresenceDao
 
     companion object {
         @Volatile

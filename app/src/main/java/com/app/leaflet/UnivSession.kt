@@ -7,18 +7,17 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "groups",
+    tableName = "sessions",
     foreignKeys = [ForeignKey(
-        entity = UnivClass::class,
+        entity = UnivPlaner::class,
         parentColumns = ["id"],
-        childColumns = ["univClassId"],
+        childColumns = ["univPlanerId"],
         onDelete = ForeignKey.CASCADE
     )],
-    indices = [Index(value = ["name", "type", "univClassId"], unique = true)]
+    indices = [Index(value = ["date", "univPlanerId"], unique = true)]
 )
-data class UnivGroup(
+data class UnivSession(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val name: String = "",
-    val type: String = "TD",
-    @ColumnInfo(index = true) val univClassId: Int?
+    val date: String = "",
+    @ColumnInfo(index = true) val univPlanerId: Int?
 )
