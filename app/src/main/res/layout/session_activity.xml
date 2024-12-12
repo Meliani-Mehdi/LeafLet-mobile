@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@color/beige">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+
+        android:paddingTop="10dp"
+        android:background="@color/beige">
+
+        <!-- Title Text -->
+        <TextView
+            android:id="@+id/textView3"
+
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/back"
+            android:backgroundTint="@color/green"
+            android:clickable="true"
+            android:onClick="go_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Date and Time"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="32dp"
+            android:textColor="@color/forest"/>
+
+        <!-- Time Picker -->
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="24dp"
+            android:theme="@style/CustomTimePicker"/>
+
+        <!-- Checkboxes for Days -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Days:"
+            android:textSize="20sp"
+            android:textColor="@color/forest"
+            android:layout_marginBottom="12dp"
+            android:textStyle="bold" android:padding="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="24dp" android:padding="30dp">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sunday"
+                android:buttonTint="@color/forest"
+                android:textColor="@color/forest"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Monday"
+                android:buttonTint="@color/forest"
+                android:textColor="@color/forest"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tuesday"
+                android:buttonTint="@color/forest"
+
+                android:textColor="@color/forest"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wednesday"
+                android:buttonTint="@color/forest" android:textColor="@color/forest"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thursday"
+                android:buttonTint="@color/forest"
+                android:textColor="@color/forest"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Friday"
+                android:buttonTint="@color/forest"
+                android:textColor="@color/forest"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saturday"
+                android:buttonTint="@color/forest"
+                android:textColor="@color/forest"/>
+        </LinearLayout>
+
+        <!-- Spacer to push content down -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Go Back Button -->
+<!--        <Button-->
+<!--            android:id="@+id/buttonGoBack"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Go Back"-->
+<!--            android:background="@drawable/button3"-->
+<!--            android:clickable="true"-->
+<!--            android:onClick="confirm"-->
+<!--            android:paddingHorizontal="16dp"-->
+<!--         -->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="18sp"/>-->
+    </LinearLayout>
+</ScrollView>

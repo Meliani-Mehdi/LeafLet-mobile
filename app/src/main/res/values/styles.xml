@@ -15,4 +15,10 @@
         <!-- Error text color -->
         <item name="errorTextColor">@color/warning</item>
     </style>
+
+    <style name="CustomTimePicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:textColorPrimary">#386641</item> <!-- Primary text color -->
+        <item name="android:textColorSecondary">#386641</item> <!-- Secondary text color -->
+    </style>
+
 </resources>
