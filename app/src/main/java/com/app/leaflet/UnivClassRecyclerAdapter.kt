@@ -43,12 +43,15 @@ class UnivClassRecyclerAdapter : RecyclerView.Adapter<UnivClassRecyclerAdapter.U
         private val tvNameClass: TextView = itemView.findViewById(R.id.tvNameClass)
         private val tvClassSP: TextView = itemView.findViewById(R.id.tvClassSP)
         private val tvClassLevel: TextView = itemView.findViewById(R.id.tvClassLevel)
-        private val tvClassYear: TextView = itemView.findViewById(R.id.tvClassYear)
         private val tvAdd: TextView = itemView.findViewById(R.id.buttonAdd)
         private val tvEdit: TextView = itemView.findViewById(R.id.buttonEdit)
         private val tvDelete: TextView = itemView.findViewById(R.id.buttonDelete)
         private val infoHolder: LinearLayout = itemView.findViewById(R.id.class_info_holder)
-        private val recyclerViewGroup: RecyclerView = itemView.findViewById(R.id.recyclerViewGroup)
+        private val buttonHolder: LinearLayout = itemView.findViewById(R.id.typeButtons)
+        private val tdHolder: LinearLayout = itemView.findViewById(R.id.TDholder)
+        private val tpHolder: LinearLayout = itemView.findViewById(R.id.TPholder)
+        private val recyclerViewGroupTD: RecyclerView = itemView.findViewById(R.id.recyclerViewGroupTD)
+        private val recyclerViewGroupTP: RecyclerView = itemView.findViewById(R.id.recyclerViewGroupTP)
 
         val updateFunc = updateList
 
@@ -61,7 +64,6 @@ class UnivClassRecyclerAdapter : RecyclerView.Adapter<UnivClassRecyclerAdapter.U
             tvNameClass.text = univClass.name
             tvClassSP.text = univClass.specialty
             tvClassLevel.text = univClass.level
-            tvClassYear.text = univClass.year
 
             tvAdd.setOnClickListener {
                 val intent = Intent(itemView.context, groupActivity::class.java)
@@ -98,14 +100,17 @@ class UnivClassRecyclerAdapter : RecyclerView.Adapter<UnivClassRecyclerAdapter.U
                 }
             }
 
-            val groupAdapter = UnivGroupRecyclerAdapter()
+            val groupAdapterTD = UnivGroupRecyclerAdapter()
+            val groupAdapterTP = UnivGroupRecyclerAdapter()
+
 
             val context = itemView.context
             if (context is LifecycleOwner) {
                 context.lifecycleScope.launch(Dispatchers.IO) {
                     val fetchedGroups = univGroupDao.getGroupByClassId(univClass.id)
                     withContext(Dispatchers.Main) {
-                        groupAdapter.updateList(fetchedGroups)
+                        groupAdapterTD.updateList(fetchedGroups.filter { group -> group.type == "TD" })
+                        groupAdapterTP.updateList(fetchedGroups.filter { group -> group.type == "TP" })
                     }
                 }
             } else {
@@ -113,19 +118,36 @@ class UnivClassRecyclerAdapter : RecyclerView.Adapter<UnivClassRecyclerAdapter.U
             }
 
 
-            recyclerViewGroup.apply {
+            recyclerViewGroupTD.apply {
                 layoutManager = LinearLayoutManager(itemView.context)
-                adapter = groupAdapter
+                adapter = groupAdapterTD
             }
 
-            recyclerViewGroup.visibility = View.GONE
+            recyclerViewGroupTP.apply {
+                layoutManager = LinearLayoutManager(itemView.context)
+                adapter = groupAdapterTP
+            }
+
+            buttonHolder.visibility = View.GONE
             infoHolder.setOnClickListener {
-                recyclerViewGroup.visibility =
-                    if (recyclerViewGroup.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+                buttonHolder.visibility =
+                    if (buttonHolder.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+            }
+
+            recyclerViewGroupTD.visibility = View.GONE
+            tdHolder.setOnClickListener {
+                recyclerViewGroupTD. visibility =
+                    if (recyclerViewGroupTD.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+            }
+
+            recyclerViewGroupTP.visibility = View.GONE
+            tpHolder.setOnClickListener {
+                recyclerViewGroupTP. visibility =
+                    if (recyclerViewGroupTP.visibility == View.VISIBLE) View.GONE else View.VISIBLE
             }
         }
 
-        fun showDeleteConfirmationDialog(className: String, onConfirm: () -> Unit) {
+        private fun showDeleteConfirmationDialog(className: String, onConfirm: () -> Unit) {
             val builder = AlertDialog.Builder(itemView.context)
             builder.setTitle("Delete Class")
             builder.setMessage("Are you sure you want to delete the class: \"$className\"?")

@@ -39,7 +39,6 @@ class UnivGroupRecyclerAdapter : RecyclerView.Adapter<UnivGroupRecyclerAdapter.U
     class UnivGroupViewHolder(itemView: View, updateList: KFunction1<List<UnivGroup>, Unit>) : RecyclerView.ViewHolder(itemView) {
 
         private val tvGroupName: TextView = itemView.findViewById(R.id.tvNameGroup)
-        private val tvTypeGroup: TextView = itemView.findViewById(R.id.tvTypeGroup)
         private val tvEditGroup: TextView = itemView.findViewById(R.id.tvEditGroup)
         private val tvDeleteGroup: TextView = itemView.findViewById(R.id.tvDeleteGroup)
 
@@ -51,7 +50,6 @@ class UnivGroupRecyclerAdapter : RecyclerView.Adapter<UnivGroupRecyclerAdapter.U
             val univGroupDao = database.groupDao()
 
             tvGroupName.text = univGroup.name
-            tvTypeGroup.text = univGroup.type
 
             tvEditGroup.setOnClickListener {
                 val intent = Intent(itemView.context, groupActivity::class.java)
@@ -84,7 +82,7 @@ class UnivGroupRecyclerAdapter : RecyclerView.Adapter<UnivGroupRecyclerAdapter.U
 
         }
 
-        fun showDeleteConfirmationDialog(groupName: String, onConfirm: () -> Unit) {
+        private fun showDeleteConfirmationDialog(groupName: String, onConfirm: () -> Unit) {
             val builder = AlertDialog.Builder(itemView.context)
             builder.setTitle("Delete Class")
             builder.setMessage("Are you sure you want to delete the group: \"$groupName\"?")

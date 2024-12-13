@@ -34,7 +34,10 @@ class groupActivity : AppCompatActivity() {
         groupName = findViewById(R.id.groupName)
         groupType = findViewById(R.id.groupType)
 
-        val group_types = listOf("TD", "TP")
+        val group_types =  mutableListOf("TD", "TP")
+        if(intent.getIntExtra("GroupID", 0) == 0){
+            group_types.add("Both")
+        }
 
         val adapter = ArrayAdapter(this, R.layout.spinner_item, group_types)
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
@@ -80,35 +83,88 @@ class groupActivity : AppCompatActivity() {
             val type = groupType.selectedItem.toString()
             val classId = intent.getIntExtra("ClassID", 0)
 
-            val newGroup = UnivGroup(gId, name, type, classId)
+            if(type == "Both"){
+                val newGroup1 = UnivGroup(gId, name, "TP", classId)
+                val newGroup2 = UnivGroup(gId, name, "TD", classId)
 
-            lifecycleScope.launch(Dispatchers.IO) {
-                withContext(Dispatchers.Main) {
-                    if(classId == 0){
-                        Toast.makeText(this@groupActivity, "An error occurred: Can't find parent class", Toast.LENGTH_SHORT).show()
+                lifecycleScope.launch(Dispatchers.IO) {
+                    withContext(Dispatchers.Main) {
+                        if(classId == 0){
+                            Toast.makeText(this@groupActivity, "An error occurred: Can't find parent class", Toast.LENGTH_LONG).show()
+                        }
                     }
+                    try {
+                        val message: String
+                        if (gId == 0) {
+                            univGroupDao.insertGroup(newGroup1)
+                            univGroupDao.insertGroup(newGroup2)
+                            message = "Group added successfully!"
+                        } else {
+                            throw IllegalArgumentException("This case is impossible, how did you get here?")
+                        }
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@groupActivity, message, Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
+                    } catch (e: SQLiteConstraintException) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                this@groupActivity,
+                                "This Group already exists. Please enter unique details.",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    } catch (e: IllegalArgumentException) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                this@groupActivity,
+                                e.message,
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    } catch (e: Exception) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                this@groupActivity,
+                                "An error occurred: ${e.message}",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+
                 }
-                try {
-                    val message: String
-                    if(gId == 0){
-                        univGroupDao.insertGroup(newGroup)
-                        message = "Group added successfully!"
-                    }
-                    else{
-                        univGroupDao.updateGroup(newGroup)
-                        message = "Group updated successfully!"
-                    }
+            }
+            else{
+                val newGroup = UnivGroup(gId, name, type, classId)
+
+                lifecycleScope.launch(Dispatchers.IO) {
                     withContext(Dispatchers.Main) {
-                        Toast.makeText(this@groupActivity, message, Toast.LENGTH_SHORT).show()
-                        finish()
+                        if(classId == 0){
+                            Toast.makeText(this@groupActivity, "An error occurred: Can't find parent class", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                } catch (e: SQLiteConstraintException) {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(this@groupActivity, "This Group already exists. Please enter unique details.", Toast.LENGTH_SHORT).show()
-                    }
-                } catch (e: Exception) {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(this@groupActivity, "An error occurred: ${e.message}", Toast.LENGTH_SHORT).show()
+                    try {
+                        val message: String
+                        if(gId == 0){
+                            univGroupDao.insertGroup(newGroup)
+                            message = "Group added successfully!"
+                        }
+                        else{
+                            univGroupDao.updateGroup(newGroup)
+                            message = "Group updated successfully!"
+                        }
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@groupActivity, message, Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
+                    } catch (e: SQLiteConstraintException) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@groupActivity, "This Group already exists. Please enter unique details.", Toast.LENGTH_SHORT).show()
+                        }
+                    } catch (e: Exception) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@groupActivity, "An error occurred: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }
