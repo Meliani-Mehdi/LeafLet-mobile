@@ -13,14 +13,15 @@
         android:theme="@style/Base.Theme.LeafLet"
         tools:targetApi="31">
         <activity
-            android:name=".item_Student"
-            android:exported="false" />
-        <activity
-            android:name=".StudentActivit"
-            android:exported="false" />
+            android:name=".StudentViewerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity" />
         <activity
             android:name=".StudentActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity" />
         <activity
             android:name=".NewClass"
             android:exported="false"
