@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class groupActivity : AppCompatActivity() {
@@ -59,7 +60,7 @@ class groupActivity : AppCompatActivity() {
         finish()
     }
 
-    fun checkFields(): Boolean {
+    private fun checkFields(): Boolean {
         if(groupName.text.trim().isEmpty()){
             groupName.error = "This field is required"
             return false
@@ -96,8 +97,12 @@ class groupActivity : AppCompatActivity() {
                     try {
                         val message: String
                         if (gId == 0) {
-                            univGroupDao.insertGroup(newGroup1)
-                            univGroupDao.insertGroup(newGroup2)
+                            database.runInTransaction {
+                                runBlocking{
+                                    univGroupDao.insertGroup(newGroup1)
+                                    univGroupDao.insertGroup(newGroup2)
+                                }
+                            }
                             message = "Group added successfully!"
                         } else {
                             throw IllegalArgumentException("This case is impossible, how did you get here?")
