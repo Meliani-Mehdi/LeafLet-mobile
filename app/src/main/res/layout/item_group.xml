@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="8dp"
@@ -10,11 +9,11 @@
     app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/group_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp">
 
-        <!-- Group Name -->
         <TextView
             android:id="@+id/tvNameGroup"
             android:layout_width="wrap_content"
@@ -27,12 +26,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- Group Type -->
-
-        <!-- Edit Button -->
-
-        <!-- Delete Button -->
 
         <LinearLayout
             android:id="@+id/linearLayout4"

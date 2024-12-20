@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -41,6 +42,7 @@ class UnivGroupRecyclerAdapter : RecyclerView.Adapter<UnivGroupRecyclerAdapter.U
         private val tvGroupName: TextView = itemView.findViewById(R.id.tvNameGroup)
         private val tvEditGroup: TextView = itemView.findViewById(R.id.tvEditGroup)
         private val tvDeleteGroup: TextView = itemView.findViewById(R.id.tvDeleteGroup)
+        private val itemHolder: ConstraintLayout = itemView.findViewById(R.id.group_holder)
 
         val updateFunc = updateList
 
@@ -78,6 +80,13 @@ class UnivGroupRecyclerAdapter : RecyclerView.Adapter<UnivGroupRecyclerAdapter.U
                         throw IllegalStateException("Context is not a LifecycleOwner")
                     }
                 }
+            }
+
+            itemHolder.setOnClickListener{
+                val intent = Intent(itemView.context, StudentViewerActivity::class.java)
+                intent.putExtra("GroupID", univGroup.id)
+
+                itemView.context.startActivity(intent)
             }
 
         }
