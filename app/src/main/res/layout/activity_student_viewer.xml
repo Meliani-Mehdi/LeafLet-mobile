@@ -17,6 +17,7 @@
         android:background="@drawable/back"
         android:backgroundTint="@color/green"
         android:clickable="true"
+        android:onClick="go_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

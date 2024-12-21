@@ -3,6 +3,7 @@ package com.app.leaflet
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -85,5 +86,9 @@ class StudentViewerActivity : AppCompatActivity() {
         }
         tvStudentNum.text = "Number Of Students: ${univStudentRecyclerAdapter.itemCount}"
 
+    }
+
+    fun go_back(view: View) {
+        finish()
     }
 }

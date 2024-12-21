@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/beige"
     tools:context=".StudentActivity">
 
     <TextView
@@ -16,6 +17,7 @@
         android:background="@drawable/back"
         android:backgroundTint="@color/green"
         android:clickable="true"
+        android:onClick="go_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

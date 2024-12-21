@@ -2,6 +2,7 @@ package com.app.leaflet
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,12 +43,47 @@ class UnivStudentRecyclerAdapter : RecyclerView.Adapter<UnivStudentRecyclerAdapt
 
         private val tvFirstNameStudent = itemView.findViewById<TextView>(R.id.tvFirstNameStudent)
         private val tvLastNameStudent = itemView.findViewById<TextView>(R.id.tvLastNameStudent)
+        private val tvEditStudent = itemView.findViewById<TextView>(R.id.tvEditStudent)
+        private val tvDeleteStudent = itemView.findViewById<TextView>(R.id.tvDeleteStudent)
 
         val updateFunc = updateList
 
         fun bind(univStudent: UnivStudent) {
+            val database = LeafLetLocalDatabase.getDatabase(itemView.context)
+            val univStudentdDao = database.studentDao()
+
             tvFirstNameStudent.text = univStudent.firstName
             tvLastNameStudent.text = univStudent.lastName
+
+            tvEditStudent.setOnClickListener {
+                val intent = Intent(itemView.context, StudentActivity::class.java)
+                intent.putExtra("StudentID", univStudent.id)
+                intent.putExtra("StudentFirstName", univStudent.firstName)
+                intent.putExtra("StudentLastName", univStudent.lastName)
+                intent.putExtra("GroupID", univStudent.univGroupId)
+
+                itemView.context.startActivity(intent)
+            }
+
+            tvDeleteStudent.setOnClickListener{
+                showDeleteConfirmationDialog("${univStudent.firstName} ${univStudent.lastName}"){
+                    val context = itemView.context
+                    if (context is LifecycleOwner) {
+                        context.lifecycleScope.launch(Dispatchers.IO) {
+                            univStudentdDao.deleteStudent(univStudent)
+                            if (univStudent.univGroupId is Int){
+                                val updatedStudents = univStudentdDao.getStudentByGroupId(univStudent.univGroupId)
+                                withContext(Dispatchers.Main) {
+                                    updateFunc(updatedStudents)
+                                }
+                            }
+                        }
+                    } else {
+                        throw IllegalStateException("Context is not a LifecycleOwner")
+                    }
+                }
+            }
+
         }
 
         private fun showDeleteConfirmationDialog(studentName: String, onConfirm: () -> Unit) {

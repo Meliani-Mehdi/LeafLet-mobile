@@ -145,7 +145,7 @@ class groupActivity : AppCompatActivity() {
                 lifecycleScope.launch(Dispatchers.IO) {
                     withContext(Dispatchers.Main) {
                         if(classId == 0){
-                            Toast.makeText(this@groupActivity, "An error occurred: Can't find parent class", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@groupActivity, "An error occurred, error code 1404: Can't find parent class", Toast.LENGTH_SHORT).show()
                         }
                     }
                     try {
@@ -164,11 +164,11 @@ class groupActivity : AppCompatActivity() {
                         }
                     } catch (e: SQLiteConstraintException) {
                         withContext(Dispatchers.Main) {
-                            Toast.makeText(this@groupActivity, "This Group already exists. Please enter unique details.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@groupActivity, "This Group already exists. Please enter unique details.", Toast.LENGTH_LONG).show()
                         }
                     } catch (e: Exception) {
                         withContext(Dispatchers.Main) {
-                            Toast.makeText(this@groupActivity, "An error occurred: ${e.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@groupActivity, "An error occurred: ${e.message}", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
