@@ -42,7 +42,7 @@ ksp {
 
 dependencies {
     implementation(libs.androidx.room.runtime)
-    ksp("androidx.room:room-compiler:2.5.0")
+    ksp(libs.androidx.room.compiler.v250)
     implementation(libs.androidx.room.ktx)
     implementation(libs.chip.navigation.bar)
     implementation(libs.androidx.core.ktx)
@@ -50,9 +50,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation ("org.apache.poi:poi:5.2.3")
-    implementation ("org.apache.poi:poi-ooxml:5.2.3")
-
+    implementation (libs.poi)
+    implementation (libs.apache.poi.ooxml)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

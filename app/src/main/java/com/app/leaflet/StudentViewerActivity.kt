@@ -4,14 +4,18 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import android.widget.Button
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +27,8 @@ private lateinit var recyclerViewStudent: RecyclerView
 
 class StudentViewerActivity : AppCompatActivity() {
 
+    private lateinit var studentViewModel: StudentViewModel
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +39,7 @@ class StudentViewerActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
         val group_Id = intent.getIntExtra("GroupID", 0) //use this to link the excel function
         if (group_Id == 0) {
             Toast.makeText(this, "An error has occurred, error code: 2404 ", Toast.LENGTH_SHORT).show()
@@ -52,6 +59,19 @@ class StudentViewerActivity : AppCompatActivity() {
             adapter = univStudentRecyclerAdapter
         }
 
+        studentViewModel = ViewModelProvider(this).get(StudentViewModel::class.java)
+
+        studentViewModel.studentCount.observe(this) { count ->
+            (findViewById<TextView>(R.id.StudentNum)).text = "Number Of Students: $count"
+        }
+
+        univStudentRecyclerAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                super.onChanged()
+                studentViewModel.updateStudentCount(univStudentRecyclerAdapter.itemCount)
+            }
+        })
+
         val database = LeafLetLocalDatabase.getDatabase(this)
         val univStudentDao = database.studentDao()
         val univGroupDao = database.groupDao()
@@ -62,7 +82,6 @@ class StudentViewerActivity : AppCompatActivity() {
         val tvStClassLevel = findViewById<TextView>(R.id.stClassLevel)
         val tvGroupName = findViewById<TextView>(R.id.GroupName)
         val tvStGroupType = findViewById<TextView>(R.id.stGroupType)
-        val tvStudentNum = findViewById<TextView>(R.id.StudentNum)
 
         lifecycleScope.launch(Dispatchers.IO) {
             val fetchedStudents = univStudentDao.getStudentByGroupId(group_Id)
@@ -84,8 +103,22 @@ class StudentViewerActivity : AppCompatActivity() {
                 }
             }
         }
-        tvStudentNum.text = "Number Of Students: ${univStudentRecyclerAdapter.itemCount}"
 
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onResume() {
+        super.onResume()
+
+        val group_Id = intent.getIntExtra("GroupID", 0)
+        val database = LeafLetLocalDatabase.getDatabase(this)
+        val univStudentDao = database.studentDao()
+        lifecycleScope.launch(Dispatchers.IO) {
+            val fetchedStudents = univStudentDao.getStudentByGroupId(group_Id)
+            withContext(Dispatchers.Main) {
+                univStudentRecyclerAdapter.updateList(fetchedStudents)
+            }
+        }
     }
 
     fun go_back(view: View) {
