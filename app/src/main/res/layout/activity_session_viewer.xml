@@ -20,10 +20,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="409dp"
-        android:layout_height="601dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Session" />
 </androidx.constraintlayout.widget.ConstraintLayout>
