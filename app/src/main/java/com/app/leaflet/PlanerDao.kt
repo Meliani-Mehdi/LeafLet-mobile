@@ -12,6 +12,9 @@ interface PlanerDao {
     @Insert
     suspend fun insertPlaner(planer: UnivPlaner)
 
+    @Insert
+    suspend fun insertPlaners(planers: List<UnivPlaner>)
+
     @Update
     suspend fun updatePlaner(planer: UnivPlaner)
 

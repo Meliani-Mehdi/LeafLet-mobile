@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select Date and Time"
-        android:textColor="@color/forest"
+        android:textColor="@color/green"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,28 +62,31 @@
             android:orientation="vertical">
 
             <CheckBox
+                android:id="@+id/sunday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/forest"
+                android:buttonTint="@color/green"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="Sunday"
-                android:textColor="@color/forest" />
+                android:textColor="@color/green" />
 
             <CheckBox
+                android:id="@+id/monday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/forest"
+                android:buttonTint="@color/green"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="Monday"
-                android:textColor="@color/forest" />
+                android:textColor="@color/green" />
 
             <CheckBox
+                android:id="@+id/tuesday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/forest"
+                android:buttonTint="@color/green"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="Tuesday"
-                android:textColor="@color/forest" />
+                android:textColor="@color/green" />
         </LinearLayout>
 
         <LinearLayout
@@ -94,28 +97,31 @@
             android:orientation="vertical">
 
             <CheckBox
+                android:id="@+id/wednesday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/forest"
+                android:buttonTint="@color/green"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="Wednesday"
-                android:textColor="@color/forest" />
+                android:textColor="@color/green" />
 
             <CheckBox
+                android:id="@+id/thursday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/forest"
+                android:buttonTint="@color/green"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="Thursday"
-                android:textColor="@color/forest" />
+                android:textColor="@color/green" />
 
             <CheckBox
+                android:id="@+id/saturday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/forest"
+                android:buttonTint="@color/green"
                 android:gravity="center_horizontal|center_vertical"
                 android:text="Saturday"
-                android:textColor="@color/forest" />
+                android:textColor="@color/green" />
         </LinearLayout>
 
     </LinearLayout>
@@ -125,6 +131,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/button3"
+        android:onClick="con"
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp"
         android:text="Confirm"
@@ -133,6 +140,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/daysCheckboxes" />
+        app:layout_constraintTop_toBottomOf="@+id/timePicker"
+        app:layout_constraintVertical_bias="0.7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

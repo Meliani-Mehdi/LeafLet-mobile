@@ -23,13 +23,13 @@
 
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/manage_session_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/button3"
-        android:text="Manage Session"
+        android:text="Manage Sessions"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +44,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5">
+        app:layout_constraintTop_toBottomOf="@+id/manage_session_btn">
 
         <Button
             android:id="@+id/addStudentBtn"

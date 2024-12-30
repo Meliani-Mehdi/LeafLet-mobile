@@ -34,11 +34,6 @@ class StudentViewerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_student_viewer)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
         val group_Id = intent.getIntExtra("GroupID", 0) //use this to link the excel function
         if (group_Id == 0) {
@@ -47,9 +42,9 @@ class StudentViewerActivity : AppCompatActivity() {
         }
 
         (findViewById<Button>(R.id.addStudentBtn)).setOnClickListener {
-            intent = Intent(this, StudentActivity::class.java)
-            intent.putExtra("GroupID", group_Id)
-            startActivity(intent)
+            val intent1 = Intent(this, StudentActivity::class.java)
+            intent1.putExtra("GroupID", group_Id)
+            startActivity(intent1)
         }
 
         recyclerViewStudent = findViewById(R.id.recyclerViewStudent)
@@ -83,6 +78,9 @@ class StudentViewerActivity : AppCompatActivity() {
         val tvGroupName = findViewById<TextView>(R.id.GroupName)
         val tvStGroupType = findViewById<TextView>(R.id.stGroupType)
 
+        val intent2 = Intent(this, sessionViewerActivity::class.java)
+
+
         lifecycleScope.launch(Dispatchers.IO) {
             val fetchedStudents = univStudentDao.getStudentByGroupId(group_Id)
             withContext(Dispatchers.Main) {
@@ -100,10 +98,26 @@ class StudentViewerActivity : AppCompatActivity() {
                 if (fetchedGroup != null) {
                     tvGroupName.text = fetchedGroup.name
                     tvStGroupType.text = fetchedGroup.type
+
+                    (findViewById<Button>(R.id.manage_session_btn)).setOnClickListener {
+                        intent2.putExtra("GroupID", group_Id)
+                        intent2.putExtra("ClassName", fetchedClass.name)
+                        intent2.putExtra("ClassSP", fetchedClass.specialty)
+                        intent2.putExtra("ClassLevel", fetchedClass.level)
+                        intent2.putExtra("GroupName", fetchedGroup.name)
+                        intent2.putExtra("GroupType", fetchedGroup.type)
+
+                        startActivity(intent2)
+                    }
                 }
             }
         }
 
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
     }
 
     @SuppressLint("SetTextI18n")
