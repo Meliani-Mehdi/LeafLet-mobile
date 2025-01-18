@@ -13,6 +13,12 @@
         android:theme="@style/Base.Theme.LeafLet"
         tools:targetApi="31">
         <activity
+            android:name=".viewPresenceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".sessionPlanerVeiwActivity"
+            android:exported="false" />
+        <activity
             android:name=".StudentViewerActivity"
             android:exported="false"
             android:screenOrientation="portrait"

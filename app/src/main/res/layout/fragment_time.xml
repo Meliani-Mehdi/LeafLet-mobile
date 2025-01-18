@@ -131,12 +131,15 @@
         android:layout_weight="1">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/sessionPlanRC"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="1dp"
+            android:layout_margin="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:itemCount="6"
+            tools:listitem="@layout/item_session2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

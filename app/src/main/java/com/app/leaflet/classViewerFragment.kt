@@ -11,7 +11,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -102,7 +101,9 @@ class classViewerFragment : Fragment() {
 
 
         // Préparer les données pour le Spinner
-        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        var currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
+        if(currentMonth <= 7) currentYear -= 1
         val startYear = 2015
 
         val items = (startYear..currentYear + 3).map { year ->

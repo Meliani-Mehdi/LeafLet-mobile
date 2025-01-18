@@ -39,7 +39,9 @@ class NewClass : AppCompatActivity() {
         classYearSpinner = findViewById(R.id.class_year)
 
         //this will fill the spinner with the wanted years
-        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        var currentYear = android.icu.util.Calendar.getInstance().get(android.icu.util.Calendar.YEAR)
+        val currentMonth = android.icu.util.Calendar.getInstance().get(android.icu.util.Calendar.MONTH)
+        if(currentMonth <= 7) currentYear -= 1
 
         val years = mutableListOf<String>()
         for (year in ( 2015 )..(currentYear + 3)) {
