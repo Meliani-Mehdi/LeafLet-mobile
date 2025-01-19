@@ -11,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class viewPresenceActivity : AppCompatActivity() {
+
+    private lateinit var studentViewModel: StudentViewModel
+    private lateinit var stP: stPViewModel
+    private lateinit var stA: stAViewModel
+    private lateinit var stABJ: stAbjViewModel
+
+
+
+    private var sessionId: Int = 0
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var stAdapter: StudentAdapter
 
@@ -37,7 +48,7 @@ class viewPresenceActivity : AppCompatActivity() {
             finish()
         }
 
-        val sessionId = intent.getIntExtra("SessionID", 0)
+        sessionId = intent.getIntExtra("SessionID", 0)
         if (sessionId == 0) {
             Toast.makeText(this, "An error has occurred, error code: 2404 ", Toast.LENGTH_SHORT).show()
             finish()
@@ -63,10 +74,38 @@ class viewPresenceActivity : AppCompatActivity() {
                     parent: RecyclerView,
                     state: RecyclerView.State
                 ) {
-                    outRect.set(0, 0, 0, 0) // No spacing between items
+                    outRect.set(0, 0, 0, 0)
                 }
             })
         }
+
+        studentViewModel = ViewModelProvider(this).get(StudentViewModel::class.java)
+        stP = ViewModelProvider(this).get(stPViewModel::class.java)
+        stA = ViewModelProvider(this).get(stAViewModel::class.java)
+        stABJ = ViewModelProvider(this).get(stAbjViewModel::class.java)
+
+        studentViewModel.studentCount.observe(this) { count ->
+            (findViewById<TextView>(R.id.StudentNum)).text = "Number Of Students: $count"
+        }
+        stP.studentCount.observe(this) { count ->
+            (findViewById<TextView>(R.id.pNum)).text = "Present: $count"
+        }
+        stA.studentCount.observe(this) { count ->
+            (findViewById<TextView>(R.id.aNum)).text = "Absent: $count"
+        }
+        stABJ.studentCount.observe(this) { count ->
+            (findViewById<TextView>(R.id.abjNum)).text = "ABJ: $count"
+        }
+
+        stAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                super.onChanged()
+                studentViewModel.updateStudentCount(stAdapter.itemCount)
+                stP.updateStudentCount(stAdapter.getPrCount())
+                stA.updateStudentCount(stAdapter.getAbCount())
+                stABJ.updateStudentCount(stAdapter.getAbjCount())
+            }
+        })
 
 
         (findViewById<Button>(R.id.addStudentBtn)).setOnClickListener {
@@ -84,7 +123,7 @@ class viewPresenceActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             val fetchedP = presenceDao.getPresenceBySessionId(sessionId)
             withContext(Dispatchers.Main){
-                stAdapter.updateList(fetchedP)
+                stAdapter.updateData(fetchedP)
             }
         }
     }
@@ -94,12 +133,13 @@ class viewPresenceActivity : AppCompatActivity() {
         val database = LeafLetLocalDatabase.getDatabase(this)
         val presenceDao = database.presenceDao()
 
-        val sessionId = intent.getIntExtra("SessionID", 0)
-
+        lifecycleScope.launch(Dispatchers.IO) {
+            presenceDao.insertMissingStudentsForSession(sessionId)
+        }
         lifecycleScope.launch(Dispatchers.IO) {
             val fetchedP = presenceDao.getPresenceBySessionId(sessionId)
             withContext(Dispatchers.Main){
-                stAdapter.updateList(fetchedP)
+                stAdapter.updateData(fetchedP)
             }
         }
     }

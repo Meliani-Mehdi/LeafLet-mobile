@@ -1,6 +1,7 @@
 package com.app.leaflet
 
 import android.content.Intent
+import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -70,36 +71,51 @@ class sessionPlanerVeiwActivity : AppCompatActivity() {
         // Handle Add Presence button click
         findViewById<Button>(R.id.Session).setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-                val database = LeafLetLocalDatabase.getDatabase(this@sessionPlanerVeiwActivity)
-                val sessionPlanDao = database.sessionDao()
+                try {
+                    val database = LeafLetLocalDatabase.getDatabase(this@sessionPlanerVeiwActivity)
+                    val sessionPlanDao = database.sessionDao()
 
-                // Get the current date
-                val currentDate = LocalDate.now().toString() // Format: "YYYY-MM-DD"
+                    // Get the current date
+                    val currentDate = LocalDate.now().toString() // Format: "YYYY-MM-DD"
 
-                // Create a new session
-                val newSession = UnivSession(
-                    date = currentDate, // Use the current date
-                    univPlanerId = planerId // Use the existing `planerId` variable
-                )
-                val sessionId = sessionPlanDao.insertSession(newSession)
+                    // Create a new session
+                    val newSession = UnivSession(
+                        date = currentDate, // Use the current date
+                        univPlanerId = planerId // Use the existing `planerId` variable
+                    )
 
-                withContext(Dispatchers.Main) {
-                    // Pass the session ID to the new activity
-                    val intent = Intent(this@sessionPlanerVeiwActivity, viewPresenceActivity::class.java)
-                    intent.apply {
-                        putExtra("SessionID", sessionId.toInt())
-                        putExtra("GroupID", groupId)
-                        putExtra("PlanerID", planerId)
-                        putExtra("ClassName", className)
-                        putExtra("ClassSP", classSP)
-                        putExtra("ClassLevel", classLevel)
-                        putExtra("GroupName", groupName)
-                        putExtra("GroupType", groupType)
+                    // Attempt to insert the session
+                    val sessionId = sessionPlanDao.insertSession(newSession)
+
+                    withContext(Dispatchers.Main) {
+                        // Pass the session ID to the new activity
+                        val intent = Intent(this@sessionPlanerVeiwActivity, viewPresenceActivity::class.java)
+                        intent.apply {
+                            putExtra("SessionID", sessionId.toInt())
+                            putExtra("GroupID", groupId)
+                            putExtra("PlanerID", planerId)
+                            putExtra("ClassName", className)
+                            putExtra("ClassSP", classSP)
+                            putExtra("ClassLevel", classLevel)
+                            putExtra("GroupName", groupName)
+                            putExtra("GroupType", groupType)
+                        }
+                        startActivity(intent)
                     }
-                    startActivity(intent)
+                } catch (e: SQLiteConstraintException) {
+                    // Handle unique constraint violations (e.g., duplicate entry)
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@sessionPlanerVeiwActivity, "You already did the presence today", Toast.LENGTH_LONG).show()
+                    }
+                } catch (e: Exception) {
+                    // Handle any other database errors
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@sessionPlanerVeiwActivity, "An unexpected error occurred", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }
+
 
         // Load data from the database
         val database = LeafLetLocalDatabase.getDatabase(this)

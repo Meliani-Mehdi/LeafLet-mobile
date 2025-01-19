@@ -36,12 +36,9 @@ class StudentAdapter : RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() 
 
     override fun getItemCount() = students.size
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateList(updatedStudents: List<UnivPresence>) {
-        students.clear()
-        students.addAll(updatedStudents)
-        notifyDataSetChanged()
-    }
+    fun getPrCount() = (students.filter { it.present =="Present" }).size
+    fun getAbCount() = (students.filter { it.present =="Absent" }).size
+    fun getAbjCount() = (students.filter { it.present =="ABJ" }).size
 
     class StudentViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
@@ -51,7 +48,7 @@ class StudentAdapter : RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() 
         private val statusSpinner: Spinner = itemView.findViewById(R.id.spinner2)
         private val commentEditText: EditText = itemView.findViewById(R.id.editTextText2)
 
-        private val spinnerOptions = listOf("", "Present", "Absent", "Absent Justified")
+        private val spinnerOptions = listOf("", "Present", "Absent", "ABJ")
 
         fun bind(student: UnivPresence) {
             val database = LeafLetLocalDatabase.getDatabase(itemView.context)
@@ -72,9 +69,7 @@ class StudentAdapter : RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() 
             } else {
                 throw IllegalStateException("Context is not a LifecycleOwner")
             }
-
-
-
+            
             // Setup spinner with predefined options
             val spinnerAdapter = ArrayAdapter(
                 itemView.context,
@@ -94,6 +89,7 @@ class StudentAdapter : RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() 
             statusSpinner.setOnItemSelectedListener(object : android.widget.AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: android.widget.AdapterView<*>?, view: View?, position: Int, id: Long) {
                     student.present = spinnerOptions[position]
+
                     if (context is LifecycleOwner) {
                         context.lifecycleScope.launch(Dispatchers.IO) {
                             presenceDao.updatePresence(student)
@@ -115,6 +111,7 @@ class StudentAdapter : RecyclerView.Adapter<StudentAdapter.StudentViewHolder>() 
             commentEditText.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
                     student.comment = commentEditText.text.toString()
+
                     if (context is LifecycleOwner) {
                         context.lifecycleScope.launch(Dispatchers.IO) {
                             presenceDao.updatePresence(student)
