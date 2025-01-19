@@ -61,7 +61,7 @@ class sessionPlanerVeiwActivity : AppCompatActivity() {
 
         // Set up RecyclerView
         recyclerView = findViewById(R.id.recyclerViewSessionSe)
-        univPresenceRecyclerAdapter = UnivPresenceRecyclerAdapter()
+        univPresenceRecyclerAdapter = UnivPresenceRecyclerAdapter(dataW(groupId, className, classSP, classLevel, groupName, groupType, day, time))
         recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = univPresenceRecyclerAdapter
@@ -81,12 +81,21 @@ class sessionPlanerVeiwActivity : AppCompatActivity() {
                     date = currentDate, // Use the current date
                     univPlanerId = planerId // Use the existing `planerId` variable
                 )
-                val sessionId = sessionPlanDao.insertSession(newSession) // Insert and get the new ID
+                val sessionId = sessionPlanDao.insertSession(newSession)
 
                 withContext(Dispatchers.Main) {
                     // Pass the session ID to the new activity
                     val intent = Intent(this@sessionPlanerVeiwActivity, viewPresenceActivity::class.java)
-                    intent.putExtra("SessionID", sessionId.toInt())
+                    intent.apply {
+                        putExtra("SessionID", sessionId.toInt())
+                        putExtra("GroupID", groupId)
+                        putExtra("PlanerID", planerId)
+                        putExtra("ClassName", className)
+                        putExtra("ClassSP", classSP)
+                        putExtra("ClassLevel", classLevel)
+                        putExtra("GroupName", groupName)
+                        putExtra("GroupType", groupType)
+                    }
                     startActivity(intent)
                 }
             }

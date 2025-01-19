@@ -28,6 +28,6 @@ data class UnivPresence(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(index = true) val univSessionId: Int?,
     @ColumnInfo(index = true) val univStudentId: Int?,
-    val present: String?,
-    val comment: String?
+    var present: String?,
+    var comment: String?
 )
